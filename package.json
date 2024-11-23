@@ -1,0 +1,8 @@
+{
+  "name": "catium",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/abu-abdullah007/catium.git",
+  "author": "abu-abdullah007 <zabernakib12580@gmail.com>",
+  "license": "MIT"
+}
