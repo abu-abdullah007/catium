@@ -87,6 +87,9 @@
         <mxCell id="U82d9xteuuH2MDA2cL9K-26" value="Prisma" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="90" y="720" width="80" height="80" as="geometry" />
         </mxCell>
+        <mxCell id="U82d9xteuuH2MDA2cL9K-29" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="670" width="120" height="60" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
