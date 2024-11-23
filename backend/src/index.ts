@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import userRouter from './routes/userRoute';
+import postRoutes from './routes/postRoute';
 
 const app: Express = express();
 const PORT = process.env.PORT
@@ -10,14 +11,15 @@ app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 
 
-app.use('/user',userRouter)   // all user releted routes in here
+app.use('/user', userRouter)   // all user releted routes in here
+app.use('/posts', postRoutes) // all post create/ read/ delete routes in here
 
 
-app.use('*',(request:Request,response:Response)=>{
+app.use('*', (request: Request, response: Response) => {
     response.status(404).json({
-        message:"Route not found",
-        status:404,
-        success:false
+        message: "Route not found",
+        status: 404,
+        success: false
     })
 })
 
