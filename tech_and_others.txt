@@ -1,0 +1,32 @@
+backend need ///
+
+user signup
+user login
+
+create/delete/edit blog and post 
+post date time
+post author name and picture
+
+database ///
+
+MySQL
+
+Auth //
+
+jwt
+
+encryption//
+
+crypto.js
+
+ORM//
+
+prisma
+
+file upload //
+
+multer
+
+hashing //
+
+bcrypt.js

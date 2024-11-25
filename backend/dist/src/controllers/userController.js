@@ -13,8 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = createUser;
+exports.makeUserToken = makeUserToken;
 const DB_CRUD_1 = __importDefault(require("../config/DB_CRUD"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+require("dotenv/config");
+const JWT_SECRET = process.env.JWT_SECRET;
+// user create controller ------------------------------------------------// 
 function createUser(request, response) {
     return __awaiter(this, void 0, void 0, function* () {
         const { firstname, lastname, username, email, password } = request.body;
@@ -42,6 +47,35 @@ function createUser(request, response) {
                 status: 500,
                 success: false,
                 error
+            });
+        }
+    });
+}
+// user validation token assainging controller ---------------------------------------------//
+function makeUserToken(request, response) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { email, id } = request.body;
+        try {
+            if (email && id) {
+                const token = jsonwebtoken_1.default.sign({ email, id }, JWT_SECRET, { expiresIn: '1h' });
+                response.status(200).json({
+                    message: "Login Successfuly !",
+                    status: 200,
+                    success: true,
+                    token
+                });
+            }
+            else {
+                response.status(403).json({
+                    email, id
+                });
+            }
+        }
+        catch (error) {
+            response.status(500).json({
+                message: "Login Faild !",
+                status: 500,
+                success: false,
             });
         }
     });

@@ -6,7 +6,7 @@ import { makeUserToken } from "../controllers/userController";
 
 const userRouter = Router();
 
-userRouter.post('/signup',checkDataMiddleware,createUser)
-userRouter.post('/login',checkIfExistMiddleware,makeUserToken)
+userRouter.post('/signup', checkDataMiddleware, createUser)
+userRouter.post('/login', checkIfExistMiddleware, makeUserToken)
 
 export default userRouter;

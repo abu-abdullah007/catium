@@ -1,1 +1,1 @@
-{"root":["../src/index.ts","../src/config/DB_CRUD.ts","../src/controllers/userController.ts","../src/middleware/userMiddleware.ts","../src/routes/userRoute.ts"],"version":"5.7.2"}
+{"root":["../src/index.ts","../src/config/DB_CRUD.ts","../src/controllers/postControllers.ts","../src/controllers/userController.ts","../src/middleware/postMiddleware.ts","../src/middleware/userMiddleware.ts","../src/routes/postRoute.ts","../src/routes/profileRoute.ts","../src/routes/userRoute.ts","../src/utils/multer.ts"],"version":"5.7.2"}

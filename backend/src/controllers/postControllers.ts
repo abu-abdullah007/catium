@@ -1,11 +1,28 @@
 import { Request, Response } from "express"
 import prisma from "../config/DB_CRUD"
+import jwt from 'jsonwebtoken'
+import 'dotenv/config'
+
+const PORT = process.env.PORT
+
+
+// get all posts -----------------------------------------------------------//
 
 export async function getAllPosts(request: Request, response: Response) {
     try {
         const allPosts = await prisma.posts.findMany({
             orderBy: {
                 id: 'desc'
+            },
+            include:{
+                author:{
+                    select:{
+                        firstname:true,
+                        lastname:true,
+                        username:true,
+                        email:true
+                    }
+                }
             }
         })
 
@@ -21,6 +38,55 @@ export async function getAllPosts(request: Request, response: Response) {
             status: 500,
             success: false,
             error
+        })
+    }
+}
+
+
+// create post controller --------------------------------------------------//
+
+export async function createPostController(request: Request, response: Response) {
+    const { title, body, heading, userId } = request.body
+    const filename = `${request.protocol}://${request.hostname}:${process.env.PORT}/${request.file?.path}`;
+
+    if (title && body && heading && filename && userId) {
+        const id = userId.id
+        try {
+            const post = await prisma.posts.create({
+                data: {
+                    title,
+                    body,
+                    heading,
+                    img_slug: filename,
+                    author: {
+                        connect: { id }
+                    }
+                }
+            })
+
+            response.status(201).json({
+                message: "Post Created Successfuly",
+                status: 201,
+                success: true,
+                data: post
+            })
+        } catch (error) {
+            response.status(500).json({
+                message: "Post Creation Faild !",
+                status: 500,
+                success: false,
+                error
+            })
+        }
+    } else {
+        response.status(400).json({
+            message: "Bad Request ! Somthing Is Missing !",
+            status: 400,
+            success: false,
+            title,
+            body,
+            heading,
+            userId
         })
     }
 }

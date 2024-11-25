@@ -46,22 +46,27 @@ export async function createUser(request: Request, response: Response) {
 // user validation token assainging controller ---------------------------------------------//
 
 export async function makeUserToken(request: Request, response: Response) {
-    const { email } = request.body
+    const { email, id } = request.body
 
     try {
-        const token = jwt.sign({ email }, JWT_SECRET as string, { expiresIn: '1h' })
-
-        response.status(200).json({
-            message:"Login Successfuly !",
-            status:200,
-            success:true,
-            token
-        })
+        if (email && id) {
+            const token = jwt.sign({ email, id }, JWT_SECRET as string, { expiresIn: '1h' })
+            response.status(200).json({
+                message: "Login Successfuly !",
+                status: 200,
+                success: true,
+                token
+            })
+        }else{
+            response.status(403).json({
+                email,id
+            })
+        }
     } catch (error) {
         response.status(500).json({
-            message:"Login Faild !",
-            status:500,
-            success:false,
+            message: "Login Faild !",
+            status: 500,
+            success: false,
         })
     }
 }
