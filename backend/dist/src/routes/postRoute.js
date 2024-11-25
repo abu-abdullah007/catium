@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const postControllers_1 = require("../controllers/postControllers");
-const postMiddleware_1 = require("../middleware/postMiddleware");
 const userMiddleware_1 = require("../middleware/userMiddleware");
+const postMiddleware_1 = require("../middleware/postMiddleware");
 const postRoutes = (0, express_1.Router)();
 postRoutes.get('/view', postControllers_1.getAllPosts);
 postRoutes.post('/create', userMiddleware_1.checkTokenValidity, postMiddleware_1.uploadFile, postControllers_1.createPostController);
