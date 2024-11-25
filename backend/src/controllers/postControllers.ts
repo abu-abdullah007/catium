@@ -47,9 +47,12 @@ export async function getAllPosts(request: Request, response: Response) {
 
 export async function createPostController(request: Request, response: Response) {
     const { title, body, heading, userId } = request.body
-    const filename = `${request.protocol}://${request.hostname}:${process.env.PORT}/${request.file?.path}`;
+    const files = request.files as Express.Multer.File[];
 
-    if (title && body && heading && filename && userId) {
+    const filename =  files && files.length > 0 ? 
+    `${request.protocol}://${request.hostname}:${process.env.PORT}/${files[0].path}`: 'file_empty';
+
+    if (title && body && heading && userId) {
         const id = userId.id
         try {
             const post = await prisma.posts.create({
@@ -82,11 +85,7 @@ export async function createPostController(request: Request, response: Response)
         response.status(400).json({
             message: "Bad Request ! Somthing Is Missing !",
             status: 400,
-            success: false,
-            title,
-            body,
-            heading,
-            userId
+            success: false
         })
     }
 }

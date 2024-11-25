@@ -1,10 +1,9 @@
-import { Request, Response, Router } from "express";
-import prisma from "../config/DB_CRUD";
-import { createPostController, getAllPosts } from "../controllers/postControllers";
-import { uploadFile } from "../middleware/postMiddleware";
+import { Router, Request, Response } from "express";
+import { getAllPosts, createPostController } from "../controllers/postControllers";
 import { checkTokenValidity } from "../middleware/userMiddleware";
-const postRoutes = Router()
+import { uploadFile } from "../middleware/postMiddleware";
 
+const postRoutes = Router()
 
 postRoutes.get('/view', getAllPosts)
 

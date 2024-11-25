@@ -1,19 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import multer from 'multer'
+import storage from "../utils/multer";
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/')
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}@${file.originalname}`)
-    }
-})
 
 export function uploadFile(request: Request, response: Response, next: NextFunction) {
     const userId = request.body.userId
 
-    multer({ storage }).single('file')(request, response, (err) => {
+    multer({ storage }).array('banner')(request, response, (err) => {
         if (!err) {
             request.body.userId = userId;
             next()
