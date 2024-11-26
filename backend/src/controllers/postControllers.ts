@@ -14,13 +14,17 @@ export async function getAllPosts(request: Request, response: Response) {
             orderBy: {
                 id: 'desc'
             },
-            include:{
-                author:{
-                    select:{
-                        firstname:true,
-                        lastname:true,
-                        username:true,
-                        email:true
+            include: {
+                author: {
+                    select: {
+                        firstname: true,
+                        lastname: true,
+                        username: true,
+                        Profile: {
+                            select: {
+                                profile_image: true
+                            }
+                        }
                     }
                 }
             }
@@ -49,8 +53,8 @@ export async function createPostController(request: Request, response: Response)
     const { title, body, heading, userId } = request.body
     const files = request.files as Express.Multer.File[];
 
-    const filename =  files && files.length > 0 ? 
-    `${request.protocol}://${request.hostname}:${process.env.PORT}/${files[0].path}`: 'file_empty';
+    const filename = files && files.length > 0 ?
+        `${request.protocol}://${request.hostname}:${process.env.PORT}/${files[0].path}` : 'file_empty';
 
     if (title && body && heading && userId) {
         const id = userId.id

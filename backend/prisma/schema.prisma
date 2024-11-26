@@ -8,13 +8,23 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   firstname String
   lastname  String
   username  String?
-  email     String? @unique
+  email     String?  @unique
   password  String?
-  posts     Posts[]
+  Profile   Profile?
+}
+
+model Profile {
+  id            Int      @id @default(autoincrement())
+  profileId     Int      @unique
+  profile_data  User     @relation(fields: [profileId], references: [id])
+  profile_image String
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  Posts         Posts[]
 }
 
 model Posts {
@@ -24,7 +34,7 @@ model Posts {
   body       String
   img_slug   String
   userId     Int
-  author     User     @relation(fields: [userId], references: [id])
+  author     Profile  @relation(fields: [userId], references: [id])
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
