@@ -1,9 +1,9 @@
-import Header from "@/components/molecules/Header";
+import ChatList from "@/components/organisms/ChatList";
 
 export default function Home() {
   return (
-    <div className="w-full">
-      <Header />
+    <div className="w-full h-screen">
+      <ChatList />
     </div>
   );
 }
