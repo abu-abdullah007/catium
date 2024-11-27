@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Posts` MODIFY `body` VARCHAR(2000) NOT NULL;

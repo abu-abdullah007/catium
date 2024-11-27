@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `Profile` ADD COLUMN `borth` VARCHAR(191) NULL,
+    MODIFY `active` BOOLEAN NOT NULL DEFAULT true;

@@ -4,6 +4,7 @@ import prisma from "../config/DB_CRUD";
 
 export async function checkProfileValidity(request: Request, response: Response) {
     const { id, email } = request.body.userId
+    const { location, education, work, phone, borth } = request.body
     const files = request.files as Express.Multer.File[]
 
     const filename = files && files.length > 0 ?
@@ -34,6 +35,11 @@ export async function checkProfileValidity(request: Request, response: Response)
                     const newProfle = await prisma.profile.create({
                         data: {
                             profile_image: filename,
+                            location,
+                            phone,
+                            education,
+                            work,
+                            borth,
                             profile_data: {
                                 connect: { id: idMain }
                             }

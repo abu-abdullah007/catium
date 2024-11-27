@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import prisma from "../config/DB_CRUD";
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import 'dotenv/config'
 
 const JWT_SECRET = process.env.JWT_SECRET as string
@@ -107,18 +107,58 @@ export async function checkTokenValidity(request: Request, response: Response, n
     const token = request.headers['authorization']?.split(' ')[1]
     if (token) {
         try {
-            const validation = jwt.verify(token, JWT_SECRET)
-            request.body = {
-                userId: validation,
-                ...request.body
-            }
-            next();
-        } catch (error) {
-            response.status(403).json({
-                message: "Token Is Not Valid",
-                status: 403,
-                success: false
+            const validation = jwt.verify(token, JWT_SECRET) as JwtPayload
+            const findProfile = await prisma.profile.findUnique({
+                where: {
+                    profileId: parseInt(validation.id)
+                }
             })
+
+            if (findProfile) {
+                if (findProfile.active !== true) {
+                    const active = true
+                    await prisma.profile.update({
+                        where: {
+                            profileId: parseInt(validation.id)
+                        },
+                        data: {
+                            active
+                        }
+                    })
+                }
+                request.body = {
+                    userId: validation.id,
+                    ...request.body
+                }
+                next();
+            }
+        } catch (error) {
+            const decoded = jwt.decode(token) as JwtPayload
+            const findProfile = await prisma.profile.findUnique({
+                where: {
+                    profileId: parseInt(decoded.id)
+                }
+            })
+
+            if (findProfile) {
+                if (findProfile.active === true) {
+                    const active = false
+                    const activeStatus = await prisma.profile.update({
+                        where: {
+                            profileId: parseInt(decoded.id)
+                        },
+                        data: {
+                            active
+                        }
+                    })
+                    response.status(403).json({
+                        message: "Token Is Not Valid",
+                        status: 403,
+                        success: false,
+                        isActive:activeStatus.active
+                    })
+                }
+            }
         }
     } else {
         response.status(500).json({

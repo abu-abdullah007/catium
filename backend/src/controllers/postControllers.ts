@@ -17,14 +17,17 @@ export async function getAllPosts(request: Request, response: Response) {
             include: {
                 author: {
                     select: {
-                        firstname: true,
-                        lastname: true,
-                        username: true,
-                        Profile: {
+                        profile_data: {
                             select: {
-                                profile_image: true
+                                firstname: true,
+                                lastname: true,
+                                username: true
                             }
-                        }
+                        },
+                        active: true,
+                        location: true,
+                        phone: true,
+                        profile_image: true
                     }
                 }
             }
@@ -50,14 +53,14 @@ export async function getAllPosts(request: Request, response: Response) {
 // create post controller --------------------------------------------------//
 
 export async function createPostController(request: Request, response: Response) {
-    const { title, body, heading, userId } = request.body
+    const { title, body, heading, userId, category, tag } = request.body
     const files = request.files as Express.Multer.File[];
 
     const filename = files && files.length > 0 ?
         `${request.protocol}://${request.hostname}:${process.env.PORT}/${files[0].path}` : 'file_empty';
 
     if (title && body && heading && userId) {
-        const id = userId.id
+
         try {
             const post = await prisma.posts.create({
                 data: {
@@ -65,8 +68,12 @@ export async function createPostController(request: Request, response: Response)
                     body,
                     heading,
                     img_slug: filename,
+                    category,
+                    tag,
                     author: {
-                        connect: { id }
+                        connect: {
+                            profileId: parseInt(userId)
+                        }
                     }
                 }
             })
