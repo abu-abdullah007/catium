@@ -1,10 +1,4 @@
-interface inputTypes extends React.InputHTMLAttributes<HTMLInputElement> {
-    input_class?: string;
-    box_class?: string;
-    icon_class?:string;
-    placeHolder:string;
-    icon_name: React.ReactNode;
-}
+import { inputTypes } from "@/types/initialtypes";
 
 export default function Input(
     {
@@ -16,7 +10,7 @@ export default function Input(
         ...inputProps }: inputTypes) {
     return (
         <div className={`py-3 px-5 ${box_class} inline-flex justify-between items-center gap-x-3`}>
-            <p className={`text-2xl ${icon_class}`}>{icon_name}</p>
+            <button className={`text-2xl active:scale-95 ${icon_class}`}>{icon_name}</button>
             <input type="text"
                 placeholder={placeHolder}
                 className={`bg-transparent ${input_class} outline-none`}

@@ -1,16 +1,6 @@
 "use client";
+import { DropdownTypes } from "@/types/initialtypes";
 import { usePathname } from "next/navigation";
-
-interface Dropdown_itemType {
-    [key: string]: string | number;
-    action_param:string;
-}
-
-interface DropdownTypes {
-    root_class?: string;
-    dropdown_item: Dropdown_itemType[];
-    link_class?: string
-}
 
 export default function Dropdown(
     {

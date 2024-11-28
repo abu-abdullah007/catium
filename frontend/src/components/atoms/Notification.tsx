@@ -1,11 +1,4 @@
-interface notificationTypes extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    icon_name: React.ReactNode;
-    span_class?: string;
-    notification_class?: string;
-    alert_number: number;
-    icon_class?: string;
-    isAlert: boolean;
-}
+import { notificationTypes } from "@/types/initialtypes";
 
 export default function Notification(
     {
